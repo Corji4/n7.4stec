@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\corji4\source\repos\n7.4stec\n7.4stec\main.cpp(23): warning C4018: '<': signed/unsigned mismatch
+c:\users\corji4\source\repos\n7.4stec\n7.4stec\main.cpp(29): warning C4018: '<': signed/unsigned mismatch
+  n7.4stec.vcxproj -> C:\Users\Corji4\source\repos\n7.4stec\Debug\n7.4stec.exe
