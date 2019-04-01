@@ -9,9 +9,11 @@ struct node
 	node* p;
 };
 
-void push(node *&top, char symbol);  //	добавление элемента в стек
-void del(node *&top);				//	удаление элемента из вершины стека
-void print(node *top);				//	вывод элементов стека на экран
+void push(node *&top, char symbol);								//	добавление элемента в стек
+void del(node *&top);											//	удаление элемента из вершины стека
+void print(node *top);											//	вывод элементов стека на экран
+bool check(node *top, char symbol);								//	проверка на наличие элемента в стеке
+void create(node *&top, node *first, node *second);				//	создание стека на основе двух других
 
 int main()
 {
@@ -30,6 +32,16 @@ int main()
 	{
 		push(second, stec.at(i));
 	}
+	create(result, first, second);
+	while (first)
+	{
+		del(first);
+	}
+	while (second)
+	{
+		del(second);
+	}
+	print(result);
 	system("pause");
 	return 0;
 }
@@ -59,4 +71,34 @@ void print(node *top)
 		top = top->p;
 	}
 	cout << endl;
+}
+
+bool check(node *top, char symbol)
+{
+	bool answer = false;
+	while (top)
+	{
+		if (top->symbol == symbol)
+		{
+			answer = true;
+		}
+		top = top->p;
+	}
+	return answer;
+}
+
+void create(node *&top, node *first, node *second)
+{
+	while (first)
+	{
+		if (!check(top, first->symbol) && !check(second, first->symbol))
+		{
+			node *pv;
+			pv = new node;
+			pv->symbol = first->symbol;
+			pv->p = top;
+			top = pv;
+		}
+		first = first->p;
+	}
 }
