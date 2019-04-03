@@ -11,8 +11,8 @@ struct node
 
 void push(node *&top, char symbol);								//	добавление элемента в стек
 void del(node *&top);											//	удаление элемента из вершины стека
-void print(node *top);											//	вывод элементов стека на экран
-bool check(node *top, char symbol);								//	проверка на наличие элемента в стеке
+void print(node *&top);											//	вывод элементов стека на экран
+node *check(node *&top, char symbol, bool *answer);				//	проверка на наличие элемента в стеке
 void create(node *&top, node *first, node *second);				//	создание стека на основе двух других
 
 int main()
@@ -33,14 +33,6 @@ int main()
 		push(second, stec.at(i));
 	}
 	create(result, first, second);
-	while (first)
-	{
-		del(first);
-	}
-	while (second)
-	{
-		del(second);
-	}
 	print(result);
 	system("pause");
 	return 0;
@@ -63,35 +55,45 @@ void del(node *&top)
 	delete pv;
 }
 
-void print(node *top)
+void print(node *&top)
 {
 	while (top)
 	{
-		cout << top->symbol << " ";
+		cout << top->symbol;
+		node *pv = top;
 		top = top->p;
+		delete pv;
 	}
 	cout << endl;
 }
 
-bool check(node *top, char symbol)
+node *check(node *&top, char symbol, bool *answer)
 {
-	bool answer = false;
+	(*answer) = false;
+	node *new_top = NULL;
 	while (top)
 	{
 		if (top->symbol == symbol)
 		{
-			answer = true;
+			(*answer) = true;
 		}
+		push(new_top, top->symbol);
+		node *pv = top;
 		top = top->p;
+		delete pv;
 	}
-	return answer;
+	return new_top;
 }
 
 void create(node *&top, node *first, node *second)
 {
 	while (first)
 	{
-		if (!check(top, first->symbol) && !check(second, first->symbol))
+		bool answer1 = false;
+		bool answer2 = false;
+		top=check(top, first->symbol, &answer1);
+		second=check(second, first->symbol, &answer2);
+		if (!answer1 && !answer2)
 		{
 			node *pv;
 			pv = new node;
@@ -99,6 +101,8 @@ void create(node *&top, node *first, node *second)
 			pv->p = top;
 			top = pv;
 		}
+		node *pv = first;
 		first = first->p;
+		delete pv;
 	}
 }
